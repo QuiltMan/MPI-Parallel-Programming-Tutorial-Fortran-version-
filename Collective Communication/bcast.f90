@@ -1,4 +1,4 @@
-program ssendrcv
+program bcast
 	use mpi
 
 	implicit none
@@ -32,4 +32,4 @@ program ssendrcv
 	100 FORMAT ('Process', I6, ' got ', I6 )
 	
 	stop
-end program ssendrcv
+end program bcast
