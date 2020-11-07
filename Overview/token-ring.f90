@@ -28,7 +28,30 @@ program token_ring
     data = 1
     dest = 1
     
-    call MPI 
+    call MPI_SEND(data, 1, MPI_INTEGER, dest, tag, MPI_COMM_WORLD, ierr)
+    call MPI_Recv(data, 1, MPI_INTEGER, p-1, tag, MPI_COMM_WORLD, status, ierr)
+  
+  else
+    source=my_rank-1
+    call MPI_Recv(data, 1, MPI_INTEGER, source, tag, MPI_COMM_WORLD, status, ierr)
+    dest =my_rank+1
+    
+    if(dest .eq. p) then
+      dest=0
+      data=data+1
+      call MPI_SEND(data, 1, MPI_INTEGER, dest, tag, MPI_COMM_WORLD, ierr)
+    end if
+    
+    if(my_rank .eq. 0) then
+      if(data .eq. 0) then
+        print *, "Successfully Token-Ring MEssage-Passing with P=", p
+      else
+        print *, "Sorry, Token-Ring MEssage-Passing with P=", p, "Failed"
+      end if
+    end if
   end if
 
+  call MPI_FINALIZE(ierr)
+
+  stop
 end program token_ring
