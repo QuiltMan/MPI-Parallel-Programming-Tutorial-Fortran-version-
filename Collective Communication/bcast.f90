@@ -3,13 +3,9 @@ program bcast
 
 	implicit none
 
-	
 	integer rank, value, size, ierr
 	integer status(MPI_STATUS_SIZE);
-	integer,allocatable,dimension(:) :: buffer
 	integer,parameter :: buf_size = 10
-	
-	allocate(buffer(buf_size))
 	
 	call MPI_INIT(ierr)
 	call MPI_COMM_RANK(MPI_COMM_WORLD, rank, ierr)
@@ -27,9 +23,8 @@ program bcast
 	enddo
 	
 	call MPI_FINALIZE(ierr)
-	deallocate(buffer)
-	
-	100 FORMAT ('Process', I6, ' got ', I6 )
-	
 	stop
+	
+100 FORMAT ('Process', I6, ' got ', I6 )
+
 end program bcast
